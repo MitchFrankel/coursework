@@ -1,0 +1,52 @@
+# Compiled source #
+###################
+*.com
+*.exe
+*.o
+*.so
+*.pyc
+
+# Packages #
+############
+*.gz
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+*.bson
+
+# Derivative editor and builder files #
+#######################################
+*.swp
+*.user
+
+# Data files #
+##############
+*.edf
+*.csv
+
+# Build directories and executables #
+#####################################
+
+# Outside libraries #
+#####################
+
+# Xfig and LaTeX files #
+########################
+*.aux
+*.pstex
+*.pstex_t
+*.bak
+*.dvi
+*.ps
+*.eps
+
+# Configuration files #
+#######################
+*.xml
+*.iml
+
