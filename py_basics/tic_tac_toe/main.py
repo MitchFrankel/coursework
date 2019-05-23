@@ -10,25 +10,14 @@ __version__ = "0.0.0"
 import board
 import game
 from time import sleep as t_sleep
+
+# My Module Imports
+import sys
+sys.path.append("../../..")
+from common import jupyter_helper as jh
+
+
 from IPython.display import clear_output
-
-
-def clear_display():
-    if isnotebook():
-        clear_output(wait=True)
-
-
-def isnotebook():
-    try:
-        shell = get_ipython().__class__.__name__
-        if shell == 'ZMQInteractiveShell':
-            return True   # Jupyter notebook or qtconsole
-        elif shell == 'TerminalInteractiveShell':
-            return False  # Terminal running IPython
-        else:
-            return False  # Other type (?)
-    except NameError:
-        return False      # Probably standard Python interpreter
 
 
 def run_game():
@@ -39,7 +28,7 @@ def run_game():
     while not_quit:
         
         # Clear the display
-        clear_display()
+        jh.clear_display()
 
         # Initialize the game
         game_board = board.init_board()
@@ -81,6 +70,7 @@ def run_game():
         not_quit = game.set_replay(status, p1_turn)
 
     print("\nSorry to see you go, but I'll enjoy watching you walk away :)")
+
 
 if __name__ == "__main__":
     run_game()
