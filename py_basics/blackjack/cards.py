@@ -8,8 +8,11 @@ from time import sleep as t_sleep
 
 # My Module Imports
 import sys
-sys.path.append("../../..")
-from common import jupyter_helper as jh
+sys.path.append("../../common")
+import jupyter_helper as jh
+
+
+
 
 
 class Card:
@@ -44,11 +47,11 @@ class Card:
     vals = {'1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, '10': 10,
             'J': 10, 'Q': 10, 'K': 10, 'A': 11}
 
-    def __init__(self, suit, rank):
-        assert suit in Card.suits
+    def __init__(self, rank, suit):
         assert rank in Card.ranks
-        self.suit = suit
+        assert suit in Card.suits
         self.rank = rank
+        self.suit = suit
 
     def __str__(self):
         return self.rank + self.suit_repr()
@@ -67,7 +70,7 @@ class Deck:
 
     Attributes
     ----------
-    cardsk : list of dicts
+    cards : list of dicts
         All X playing cards with structure {'deck': int, 'card': Card}
 
     Methods
@@ -79,7 +82,7 @@ class Deck:
         deal a card from the top of the deck
     """
     def __init__(self, n_decks):
-        self.cards = [{'deck': ix, 'card': Card(suit, rank)} for ix in range(n_decks) for suit in Card.suits for rank in Card.ranks]
+        self.cards = [{'deck': ix, 'card': Card(rank, suit)} for ix in range(n_decks) for suit in Card.suits for rank in Card.ranks]
 
     def __str__(self):
         deck_str = "Deck:"
@@ -112,6 +115,7 @@ class Hand:
         self.cards = []
         self.val = 0
         self.aces = 0
+        self.status = "live"
 
     def add_card(self, card):
         assert type(card) == Card
@@ -119,9 +123,9 @@ class Hand:
         self.cards.append(card)
         self.val += Card.vals[card.rank]
 
-        #
         if card.rank == 'A':
             self.aces += 1
+            self.adjust_for_aces()
 
     def adjust_for_aces(self):
         if self.val > 21 and self.aces > 0:
@@ -144,7 +148,7 @@ def set_decks():
     return n_decks
 
 
-def display_hands(player_hands, dealer_hand, dealer_show=False):
+def display_hands(player_hands, dealer_hand, wagers, dealer_show=False):
     assert all(type(hand) is Hand for hand in player_hands)
     assert type(dealer_hand) is Hand
 
@@ -160,10 +164,12 @@ def display_hands(player_hands, dealer_hand, dealer_show=False):
     for ix, hand in enumerate(player_hands):
 
         # If Player has 'A' display both values
-        if hand.val > 10 and hand.aces != 0 and not dealer_show:
-            player_hand_str = "Player Hand #{} (Total = {:d} or {:d}):".format(ix + 1, hand.val - 10, hand.val)
+        if hand.val > 10 and hand.aces != 0 and not dealer_show and hand.status == 'live':
+            player_hand_str = "Player Hand #{} [{}] Wager: ${:d} (Total: " \
+                              "{:d} or {:d}):".format(ix + 1, hand.status, wagers[ix], hand.val - 10, hand.val)
         else:
-            player_hand_str = "Player Hand #{} (Total = {:d}):".format(ix + 1, hand.val)
+            player_hand_str = "Player Hand #{} [{}] Wager: ${:d} (Total: " \
+                              "{:d}):".format(ix + 1, hand.status, wagers[ix], hand.val)
         for card in hand.cards:
             player_hand_str += " " + card.__str__()
 
