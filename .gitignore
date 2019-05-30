@@ -50,3 +50,6 @@
 *.xml
 *.iml
 
+# IPythyon Notebook Checkpoints #
+################################
+*.ipynb_checkpoints*
