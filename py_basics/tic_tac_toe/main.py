@@ -13,11 +13,8 @@ from time import sleep as t_sleep
 
 # My Module Imports
 import sys
-sys.path.append("../../..")
-from common import jupyter_helper as jh
-
-
-from IPython.display import clear_output
+sys.path.append("../../common")
+from jupyter_helper import clear_display
 
 
 def run_game():
