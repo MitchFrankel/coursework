@@ -25,7 +25,7 @@ def run_game():
     while not_quit:
         
         # Clear the display
-        jh.clear_display()
+        clear_display()
 
         # Initialize the game
         game_board = board.init_board()
