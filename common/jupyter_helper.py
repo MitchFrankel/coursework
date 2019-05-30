@@ -5,7 +5,23 @@ Helper functions for use with jupyter notebooks
 
 # Imports
 from IPython.display import clear_output
+from time import sleep as t_sleep
 
+
+def sleep_and_clear(sleep_s):
+    """
+    sleep for X seconds and then clear the display.  for use with jupyter notebooks
+
+    Parameters
+    ----------
+    sleep_s : int, float
+        seconds to sleep for before clearing display
+
+    Returns
+    -------
+    None
+    """
+    t_sleep(sleep_s); clear_display()
 
 
 def clear_display():
